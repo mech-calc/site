@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MechCalc - Zerspanungsrechner</title>
-    <!-- Verlinkung zur CSS-Datei -->
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -25,7 +24,7 @@
 
     <main class="container">
         
-        <!-- STARTSEITE / NAVIGATION -->
+        <!-- NAVIGATION -->
         <section id="home" class="active">
             <h2 data-i18n="home_title">Wählen Sie einen Rechner</h2>
             <div class="grid">
@@ -52,7 +51,7 @@
             </div>
         </section>
 
-        <!-- RECHNER CONTAINER -->
+        <!-- RECHNER ANZEIGE -->
         <section id="calculator-view" class="hidden">
             <button class="btn-secondary" onclick="showSection('home')" data-i18n="btn_back">← Zurück</button>
             
@@ -67,19 +66,18 @@
 
                 <div class="results-container">
                     <h3 data-i18n="title_results">Ergebnisse:</h3>
-                    <div id="results-display">
-                        <!-- Ergebnisse erscheinen hier -->
-                    </div>
+                    <div id="results-display"></div>
                 </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 MechCalc | Professional Machining Tools</p>
+        <div class="footer-container">
+            <p>&copy; 2026 MechCalc V1.0 | Haris L.</p>
+        </div>
     </footer>
 
-    <!-- Verlinkung zur JavaScript-Datei -->
     <script src="script.js"></script>
 </body>
 </html>
