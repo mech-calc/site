@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MechCalc - Zerspanungsrechner</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <h1 id="logo" onclick="showSection('home')">MechCalc</h1>
+            <div class="lang-selector">
+                <select id="lang-dropdown" onchange="changeLanguage(this.value)">
+                    <option value="de">Deutsch</option>
+                    <option value="en">English</option>
+                    <option value="it">Italiano</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section id="home" class="active">
+            <h2 data-i18n="home_title">Wählen Sie einen Rechner</h2>
+            <div class="grid">
+                <div class="card nav-card" onclick="showSection('calc-bohren')">
+                    <div class="icon">⚙️</div>
+                    <h3 data-i18n="nav_bohren_vc">Schnittdaten Bohren</h3>
+                </div>
+                <div class="card nav-card" onclick="showSection('calc-drehen')">
+                    <div class="icon">🌀</div>
+                    <h3 data-i18n="nav_drehen_vc">Schnittdaten Drehen</h3>
+                </div>
+                <div class="card nav-card" onclick="showSection('calc-fraesen')">
+                    <div class="icon">✂️</div>
+                    <h3 data-i18n="nav_fraesen_vc">Schnittdaten Fräsen</h3>
+                </div>
+                <div class="card nav-card" onclick="showSection('th-bohren')">
+                    <div class="icon">⏱️</div>
+                    <h3 data-i18n="nav_bohren_th">Hauptnutzungszeit Bohren</h3>
+                </div>
+                <div class="card nav-card" onclick="showSection('th-drehen')">
+                    <div class="icon">📈</div>
+                    <h3 data-i18n="nav_drehen_th">Hauptnutzungszeit Drehen</h3>
+                </div>
+            </div>
+        </section>
+
+        <section id="calculator-view" class="hidden">
+            <button class="btn-secondary" onclick="showSection('home')" data-i18n="btn_back">← Zurück</button>
+            
+            <div class="card main-calc-card">
+                <h2 id="calc-title">Titel</h2>
+                
+                <div id="input-fields" class="input-grid">
+                    </div>
+
+                <button class="btn-primary" onclick="calculate()" data-i18n="btn_calc">Berechnen</button>
+
+                <div class="results-container">
+                    <h3 data-i18n="title_results">Ergebnisse:</h3>
+                    <div id="results-display">
+                        </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 MechCalc | Professional Machining Tools</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
