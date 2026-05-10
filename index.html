@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +12,8 @@
     <div class="logo">⚙️ MECHCALC <span style="color:#3b82f6">PRO</span></div>
     <div class="lang-container">
         <select id="lang-switcher" onchange="changeLanguage(this.value)">
-            <option value="it">🇮🇹 IT</option>
             <option value="de">🇩🇪 DE</option>
+            <option value="it">🇮🇹 IT</option>
             <option value="en">🇺🇸 EN</option>
         </select>
     </div>
@@ -21,86 +21,83 @@
 
 <div class="main-container">
     <nav class="tab-nav">
-        <button class="tab-btn" onclick="openTab(event, 'tab-cutting')" id="btn-t1">📊 Dati di Taglio</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-time')" id="btn-t2">⏱️ th Tempo</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-weight')" id="btn-t3">⚖️ Peso</button>
-        <button class="tab-btn active" onclick="openTab(event, 'tab-comp')" id="btn-t4">🌀 Compressore</button>
+        <button class="tab-btn active" onclick="openTab(event, 'tab-cutting')" id="t1">📊 Schnittdaten</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-time')" id="t2">⏱️ Hauptnutzungszeit</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-weight')" id="t3">⚖️ Gewicht</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-comp')" id="t4">🌀 Kompressor</button>
     </nav>
 
-    <!-- TAB: SCHNITTDATEN -->
-    <section id="tab-cutting" class="content-panel">
+    <section id="tab-cutting" class="content-panel active">
         <div class="sub-nav">
-            <button class="sub-btn active" onclick="openSubTab(event, 'turn')" id="sbtn-turn">🔄 Tornitura</button>
-            <button class="sub-btn" onclick="openSubTab(event, 'mill')" id="sbtn-mill">🚜 Fresatura</button>
+            <button class="sub-btn active" onclick="openSubTab(event, 'cut-turning')" id="st1">🔄 Drehen</button>
+            <button class="sub-btn" onclick="openSubTab(event, 'cut-milling')" id="st2">⚙️ Fräsen</button>
+            <button class="sub-btn" onclick="openSubTab(event, 'cut-drilling')" id="st3">🎯 Bohren</button>
         </div>
-        <div class="calc-grid">
-            <div class="form-group"><label id="lbl-d">Ø d (mm)</label><input type="number" id="in-d" value="50"></div>
-            <div class="form-group"><label id="lbl-vc">vc (m/min)</label><input type="number" id="in-vc" value="200"></div>
-            <div class="form-group"><label id="lbl-f">f (mm/g)</label><input type="number" id="in-f" value="0.2"></div>
+        <div class="calc-grid" id="cutting-inputs">
+            <div class="form-group"><label id="lbl-d">Durchmesser d (mm)</label><input type="number" id="c-d" value="50"></div>
+            <div class="form-group"><label id="lbl-vc">vc (m/min)</label><input type="number" id="c-vc" value="200"></div>
+            <div class="form-group"><label id="lbl-f">f (mm/U)</label><input type="number" id="c-f" value="0.2"></div>
+            <div class="form-group mill-only" style="display:none"><label id="lbl-z">Zähnezahl z</label><input type="number" id="c-z" value="4"></div>
         </div>
-        <button class="action-btn" onclick="calculateCutting()" id="btn-calc1">🚀 Calcolare</button>
+        <button class="action-btn" onclick="calculateCutting()" id="btn-c">🚀 Berechnen</button>
         <div id="res-cut" class="result-display"></div>
     </section>
 
-    <!-- TAB: HAUPTNUTZUNGSZEIT -->
     <section id="tab-time" class="content-panel">
-        <h3 id="h-time">⏱️ Tempo di lavorazione th</h3>
-        <div class="calc-grid">
-            <div class="form-group"><label id="lbl-l">Lunghezza L (mm)</label><input type="number" id="in-time-l" value="100"></div>
-            <div class="form-group"><label id="lbl-n">Giri n (1/min)</label><input type="number" id="in-time-n" value="1200"></div>
-            <div class="form-group"><label id="lbl-ft">Avanzamento f (mm/g)</label><input type="number" id="in-time-f" value="0.2"></div>
-            <div class="form-group"><label id="lbl-i">Passate i</label><input type="number" id="in-time-i" value="1"></div>
+        <h3 id="h-time">⏱️ Hauptnutzungszeit</h3>
+        <div class="sub-nav">
+            <button class="sub-btn active" onclick="setThMode('turn')" id="st-th1">🔄 Drehen</button>
+            <button class="sub-btn" onclick="setThMode('drill')" id="st-th2">🎯 Bohren</button>
         </div>
-        <button class="action-btn" onclick="calculateTime()" id="btn-calc2">⏱️ th Calcolare</button>
+        <div class="calc-grid">
+            <div class="form-group"><label id="lbl-l">Schnittlänge L (mm)</label><input type="number" id="th-l" value="100"></div>
+            <div class="form-group"><label id="lbl-la">Anlauf la (mm)</label><input type="number" id="th-la" value="2"></div>
+            <div class="form-group"><label id="lbl-lu">Überlauf lu (mm)</label><input type="number" id="th-lu" value="2"></div>
+            <div class="form-group"><label id="lbl-tn">Drehzahl n (1/min)</label><input type="number" id="th-n" value="1000"></div>
+            <div class="form-group"><label id="lbl-tf">Vorschub f (mm/U)</label><input type="number" id="th-f" value="0.2"></div>
+            <div class="form-group"><label id="lbl-ti">Anzahl Schnitte i</label><input type="number" id="th-i" value="1"></div>
+        </div>
+        <button class="action-btn" onclick="calculateTh()" id="btn-th">🚀 th Berechnen</button>
         <div id="res-time" class="result-display"></div>
     </section>
 
-    <!-- TAB: GEWICHT -->
     <section id="tab-weight" class="content-panel">
-        <h3 id="h-weight">⚖️ Calcolo del Peso</h3>
+        <h3 id="h-weight">⚖️ Gewichtsberechnung</h3>
         <div class="calc-grid">
-            <div class="form-group">
-                <label id="lbl-mat">Materiale</label>
-                <select id="in-w-rho">
-                    <option value="7.85">Stahl / Acciaio (7.85)</option>
+            <div class="form-group"><label id="lbl-mat">Material (g/cm³)</label>
+                <select id="w-rho">
+                    <option value="7.85">Stahl (7.85)</option>
                     <option value="2.7">Alu (2.7)</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label id="lbl-form">Profilo</label>
-                <select id="in-w-form" onchange="toggleWeightInputs()">
-                    <option value="round" id="opt-round">⭕ Tondo</option>
-                    <option value="flat" id="opt-flat">🟦 Piatto</option>
+            <div class="form-group"><label id="lbl-form">Form</label>
+                <select id="w-form" onchange="toggleWeightInputs()">
+                    <option value="round" id="opt-r">Rund</option>
+                    <option value="flat" id="opt-f">Flach</option>
                 </select>
             </div>
-            <div id="w-d-div" class="form-group"><label id="lbl-wd">Ø d (mm)</label><input type="number" id="in-w-d" value="30"></div>
-            <div id="w-flat-div" class="calc-grid" style="display:none; grid-column: span 2; margin:0;">
-                <div class="form-group"><label id="lbl-wb">B (mm)</label><input type="number" id="in-w-b" value="50"></div>
-                <div class="form-group"><label id="lbl-wh">H (mm)</label><input type="number" id="in-w-h" value="10"></div>
-            </div>
-            <div class="form-group"><label id="lbl-wl">L (mm)</label><input type="number" id="in-w-l" value="1000"></div>
+            <div class="form-group" id="w-d-box"><label id="lbl-wd">Ø d (mm)</label><input type="number" id="w-d" value="20"></div>
+            <div class="form-group w-flat-box" style="display:none"><label id="lbl-wb">Breite B (mm)</label><input type="number" id="w-b" value="50"></div>
+            <div class="form-group w-flat-box" style="display:none"><label id="lbl-wh">Höhe H (mm)</label><input type="number" id="w-h" value="10"></div>
+            <div class="form-group"><label id="lbl-wl">Länge L (mm)</label><input type="number" id="w-l" value="1000"></div>
         </div>
-        <button class="action-btn" onclick="calculateWeight()" id="btn-calc3">⚖️ Calcolare</button>
+        <button class="action-btn" onclick="calculateWeight()" id="btn-w">🚀 Masse berechnen</button>
         <div id="res-weight" class="result-display"></div>
     </section>
 
-    <!-- TAB: KOMPRESSOR (Fokus aus grafik_6.png) -->
-    <section id="tab-comp" class="content-panel active">
-        <h3 id="h-comp">🌀 Dimensionamento dei compressori</h3>
+    <section id="tab-comp" class="content-panel">
+        <h3 id="h-comp">🌀 Auslegung von Kompressoren</h3>
         <div class="form-group">
-            <label id="lbl-comp-sel">Tipo di calcolo</label>
-            <select id="comp-selector" onchange="renderCompInputs()">
-                <!-- Wird dynamisch durch JS befüllt -->
-            </select>
+            <label id="lbl-sel-comp">Berechnung wählen</label>
+            <select id="comp-mode" onchange="renderCompInputs()"></select>
         </div>
         <div id="comp-inputs" class="calc-grid" style="margin-top:20px;"></div>
-        <button class="action-btn" onclick="calculateCompressor()" id="btn-calc4">🌀 Calcolare</button>
+        <button class="action-btn" onclick="calculateComp()" id="btn-comp">🚀 Berechnen</button>
         <div id="res-comp" class="result-display"></div>
     </section>
 </div>
 
 <footer>© 2026 MechCalc Pro - Haris L.</footer>
-
 <script src="script.js"></script>
 </body>
 </html>
